@@ -3,5 +3,5 @@ class Fotografia < ApplicationRecord
 
   belongs_to :vehiculo, inverse_of: :fotografias
 
-  validates :ruta_archivo, presence: true
+  validates :ruta_archivo, presence: true, uniqueness: { scope: :vehiculo_id, case_sensitive: false }
 end

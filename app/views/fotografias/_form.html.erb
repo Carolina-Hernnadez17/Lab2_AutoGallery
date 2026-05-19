@@ -1,0 +1,39 @@
+<%= form_with model: fotografia, class: "row g-3" do |form| %>
+  <% if fotografia.errors.any? %>
+    <div class="col-12">
+      <div class="alert alert-danger">
+        <strong>Revisa los datos:</strong>
+        <ul class="mb-0">
+          <% fotografia.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-12">
+    <%= form.label :vehiculo_id, "Vehículo", class: "form-label fw-bold" %>
+    <%= form.collection_select :vehiculo_id, Vehiculo.order(:modelo), :id, :modelo, { prompt: "Selecciona un vehículo..." }, class: "form-select form-select-lg" %>
+  </div>
+
+  <div class="col-12">
+    <%= form.label :ruta_archivo, class: "form-label fw-bold" %>
+    <%= form.text_field :ruta_archivo, class: "form-control form-control-lg", placeholder: "https://..." %>
+  </div>
+
+  <div class="col-md-6">
+    <%= form.label :angulo, class: "form-label fw-bold" %>
+    <%= form.text_field :angulo, class: "form-control form-control-lg", placeholder: "Frontal, lateral..." %>
+  </div>
+
+  <div class="col-md-6">
+    <%= form.label :fecha_subida, class: "form-label fw-bold" %>
+    <%= form.date_field :fecha_subida, class: "form-control form-control-lg" %>
+  </div>
+
+  <div class="col-12 mt-4 d-flex justify-content-between align-items-center">
+    <%= link_to "Cancelar", (fotografia.vehiculo_id ? vehiculo_path(fotografia.vehiculo_id) : vehiculos_path), class: "btn btn-outline-secondary px-4 py-2 rounded-pill" %>
+    <%= form.submit "Guardar", class: "btn btn-dark px-4 py-2 rounded-pill" %>
+  </div>
+<% end %>

@@ -81,9 +81,31 @@
           <div class="mt-auto d-flex justify-content-between align-items-center gap-3 flex-wrap">
             <small class="text-muted">Explora la colección completa</small>
             <div class="d-flex gap-2 flex-wrap">
-              <%= link_to "Ver vehículos", marca_path(marca), class: "btn btn-autogallery" %>
+              <button class="btn btn-autogallery" type="button" data-bs-toggle="collapse" data-bs-target="#brand-vehicles-<%= marca.id %>" aria-expanded="false" aria-controls="brand-vehicles-<%= marca.id %>">
+                Ver vehículos
+              </button>
+              <%= link_to "Gestión", marca_path(marca), class: "btn btn-outline-autogallery" %>
               <%= button_to "Eliminar", marca_path(marca), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar esta marca? Se borrarán sus vehículos y fotografías." } %>
             </div>
+          </div>
+
+          <div class="collapse mt-3" id="brand-vehicles-<%= marca.id %>">
+            <% if marca.vehiculos.any? %>
+              <div class="row g-2 mt-2">
+                <% marca.vehiculos.each do |vehiculo| %>
+                  <div class="col-12 col-sm-6">
+                    <div class="card border-0 shadow-sm bg-body-tertiary h-100">
+                      <div class="card-body p-2 d-flex justify-content-between align-items-center">
+                        <span class="fw-medium text-truncate" title="<%= vehiculo.modelo %>"><%= vehiculo.modelo %></span>
+                        <%= link_to "Ver", vehiculo_path(vehiculo), class: "btn btn-autogallery btn-sm rounded-pill px-3" %>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="empty-state p-2 mt-2">Esta marca no tiene vehículos todavía.</div>
+            <% end %>
           </div>
         </div>
       </article>

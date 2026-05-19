@@ -3,9 +3,7 @@ Rails.application.routes.draw do
 
   root "marcas#index"
 
-  resources :marcas, only: %i[index show new create destroy] do
-    resources :vehiculos, only: %i[show new create destroy] do
-      resources :fotografias, only: %i[new create]
-    end
-  end
+  resources :marcas
+  resources :vehiculos
+  resources :fotografias
 end

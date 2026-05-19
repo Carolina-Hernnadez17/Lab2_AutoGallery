@@ -1,10 +1,10 @@
-<% content_for :title, "AutoGallery | Nueva marca" %>
+<% content_for :title, "AutoGallery | Editar marca" %>
 
 <div class="row justify-content-center">
   <div class="col-lg-8">
     <div class="detail-card p-4 p-md-5 fade-in-up">
-      <p class="section-label mb-2">Alta de marca</p>
-      <h1 class="h2 fw-bold mb-4">Crear una nueva marca</h1>
+      <p class="section-label mb-2">Editar marca</p>
+      <h1 class="h2 fw-bold mb-4"><%= @marca.nombre_marca %></h1>
 
       <%= form_with model: @marca, class: "row g-3" do |form| %>
         <% if @marca.errors.any? %>
@@ -21,17 +21,17 @@
         <% end %>
         <div class="col-12">
           <%= form.label :nombre_marca, class: "form-label" %>
-          <%= form.text_field :nombre_marca, class: "form-control form-control-lg", placeholder: "Ej. Nissan" %>
+          <%= form.text_field :nombre_marca, class: "form-control form-control-lg" %>
         </div>
 
         <div class="col-12">
           <%= form.label :pais_origen, class: "form-label" %>
-          <%= form.text_field :pais_origen, class: "form-control form-control-lg", placeholder: "Ej. Japón" %>
+          <%= form.text_field :pais_origen, class: "form-control form-control-lg" %>
         </div>
 
         <div class="col-12 d-flex gap-2 flex-wrap">
-          <%= form.submit "Guardar marca", class: "btn btn-autogallery" %>
-          <%= link_to "Volver", marcas_path, class: "btn btn-outline-autogallery" %>
+          <%= form.submit "Actualizar marca", class: "btn btn-autogallery" %>
+          <%= link_to "Volver", marca_path(@marca), class: "btn btn-outline-autogallery" %>
         </div>
       <% end %>
     </div>

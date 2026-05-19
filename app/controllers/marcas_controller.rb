@@ -20,6 +20,10 @@ class MarcasController < ApplicationController
     @marca = Marca.new
   end
 
+  def edit
+    @marca = Marca.find(params[:id])
+  end
+
   def create
     @marca = Marca.new(marca_params)
 
@@ -27,6 +31,16 @@ class MarcasController < ApplicationController
       redirect_to marca_path(@marca), notice: "Marca creada correctamente."
     else
       render :new, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @marca = Marca.find(params[:id])
+
+    if @marca.update(marca_params)
+      redirect_to marca_path(@marca), notice: "Marca actualizada correctamente."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 

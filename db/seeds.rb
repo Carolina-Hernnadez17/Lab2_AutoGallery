@@ -17,14 +17,14 @@ ford = Marca.create!(nombre_marca: "Ford", pais_origen: "Estados Unidos")
 bmw = Marca.create!(nombre_marca: "BMW", pais_origen: "Alemania")
 audi = Marca.create!(nombre_marca: "Audi", pais_origen: "Alemania")
 
-corolla = toyota.vehiculos.create!(modelo: "Corolla GR-S", anio: 2024, color: "Blanco perlado")
-toyota_camry = toyota.vehiculos.create!(modelo: "Camry Hybrid", anio: 2025, color: "Gris grafito")
-mustang = ford.vehiculos.create!(modelo: "Mustang GT", anio: 2024, color: "Rojo intenso")
-bronco = ford.vehiculos.create!(modelo: "Bronco Sport", anio: 2023, color: "Verde bosque")
-x5 = bmw.vehiculos.create!(modelo: "X5 xDrive", anio: 2025, color: "Negro obsidiana")
-m3 = bmw.vehiculos.create!(modelo: "M3 Competition", anio: 2024, color: "Azul zafiro")
-a4 = audi.vehiculos.create!(modelo: "A4 Sedan", anio: 2024, color: "Plata humo")
-q8 = audi.vehiculos.create!(modelo: "Q8 Sportback", anio: 2025, color: "Blanco glaciar")
+corolla = toyota.vehiculos.create!(modelo: "Corolla GR-S", anio: 2024, color: "Blanco perlado", precio: 23500)
+toyota_camry = toyota.vehiculos.create!(modelo: "Camry Hybrid", anio: 2025, color: "Gris grafito", precio: 31000)
+mustang = ford.vehiculos.create!(modelo: "Mustang GT", anio: 2024, color: "Rojo intenso", precio: 42000)
+bronco = ford.vehiculos.create!(modelo: "Bronco Sport", anio: 2023, color: "Verde bosque", precio: 36000)
+x5 = bmw.vehiculos.create!(modelo: "X5 xDrive", anio: 2025, color: "Negro obsidiana", precio: 68000)
+m3 = bmw.vehiculos.create!(modelo: "M3 Competition", anio: 2024, color: "Azul zafiro", precio: 72000)
+a4 = audi.vehiculos.create!(modelo: "A4 Sedan", anio: 2024, color: "Plata humo", precio: 47000)
+q8 = audi.vehiculos.create!(modelo: "Q8 Sportback", anio: 2025, color: "Blanco glaciar", precio: 79000)
 
 [
 	[corolla, "Frontal", "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"],
