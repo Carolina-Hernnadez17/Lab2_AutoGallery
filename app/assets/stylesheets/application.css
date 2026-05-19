@@ -1,0 +1,345 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+:root {
+	--autogallery-bg: #07111f;
+	--autogallery-bg-soft: rgba(13, 23, 41, 0.78);
+	--autogallery-surface: rgba(16, 28, 49, 0.9);
+	--autogallery-surface-soft: rgba(255, 255, 255, 0.06);
+	--autogallery-text: #f7fbff;
+	--autogallery-muted: rgba(247, 251, 255, 0.72);
+	--autogallery-accent: #ffb703;
+	--autogallery-accent-2: #fb7185;
+	--autogallery-border: rgba(255, 255, 255, 0.12);
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	min-height: 100vh;
+	font-family: "Sora", sans-serif;
+	color: var(--autogallery-text);
+	background:
+		radial-gradient(circle at top left, rgba(255, 183, 3, 0.14), transparent 28%),
+		radial-gradient(circle at top right, rgba(251, 113, 133, 0.16), transparent 24%),
+		linear-gradient(180deg, #050b16 0%, #09121f 55%, #050b16 100%);
+}
+
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+	background-size: 90px 90px;
+	mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 88%);
+	opacity: 0.3;
+}
+
+a {
+	color: inherit;
+}
+
+a:hover {
+	color: var(--autogallery-accent);
+}
+
+.autogallery-shell {
+	width: min(1180px, calc(100% - 2rem));
+	margin: 0 auto;
+	padding: 1.25rem 0 4rem;
+	position: relative;
+	z-index: 1;
+}
+
+.navbar-autogallery {
+	background: rgba(8, 16, 29, 0.72);
+	border-bottom: 1px solid var(--autogallery-border);
+	backdrop-filter: blur(18px);
+}
+
+.brand-mark {
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.navbar .nav-link {
+	color: var(--autogallery-muted);
+	font-weight: 600;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+	color: var(--autogallery-text);
+}
+
+.hero-panel,
+.gallery-card,
+.detail-card,
+.metric-box,
+.empty-state,
+.visual-panel,
+.photo-tile,
+.brand-breadcrumb,
+.carousel-shell {
+	border: 1px solid var(--autogallery-border);
+	background: var(--autogallery-surface);
+	box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
+
+.hero-panel {
+	border-radius: 2rem;
+	padding: clamp(1.5rem, 4vw, 3rem);
+	background: linear-gradient(135deg, rgba(255, 183, 3, 0.16), rgba(8, 16, 29, 0.9) 42%, rgba(251, 113, 133, 0.18));
+}
+
+.hero-kicker,
+.section-label {
+	text-transform: uppercase;
+	letter-spacing: 0.22em;
+	font-size: 0.75rem;
+	color: var(--autogallery-muted);
+}
+
+.hero-copy {
+	color: var(--autogallery-muted);
+	max-width: 58ch;
+}
+
+.metric-box {
+	min-width: 140px;
+	border-radius: 1.25rem;
+	padding: 1rem 1.1rem;
+	background: var(--autogallery-bg-soft);
+}
+
+.metric-box strong {
+	display: block;
+	font-size: 1.5rem;
+	color: var(--autogallery-accent);
+}
+
+.metric-box span {
+	font-size: 0.88rem;
+	color: var(--autogallery-muted);
+}
+
+.gallery-card {
+	border-radius: 1.5rem;
+	overflow: hidden;
+	transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+	background: rgba(13, 22, 39, 0.86);
+}
+
+.gallery-card:hover {
+	transform: translateY(-8px);
+	border-color: rgba(255, 183, 3, 0.4);
+	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.36);
+}
+
+.brand-card .card-body,
+.vehicle-card .card-body {
+	padding: 1.35rem;
+}
+
+.brand-name,
+.vehicle-name,
+.gallery-title {
+	color: var(--autogallery-text);
+}
+
+.text-muted,
+.gallery-subtitle,
+.support-copy {
+	color: var(--autogallery-muted) !important;
+}
+
+.btn-autogallery,
+.btn-outline-autogallery {
+	border-radius: 999px;
+	font-weight: 700;
+	padding: 0.8rem 1.15rem;
+}
+
+.btn-autogallery {
+	background: linear-gradient(135deg, var(--autogallery-accent), #ffd166);
+	border: none;
+	color: #172033;
+}
+
+.btn-autogallery:hover,
+.btn-autogallery:focus {
+	color: #172033;
+	filter: brightness(1.03);
+}
+
+.btn-outline-autogallery {
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: var(--autogallery-text);
+	background: transparent;
+}
+
+.btn-outline-autogallery:hover,
+.btn-outline-autogallery:focus {
+	color: #172033;
+	background: var(--autogallery-accent);
+	border-color: var(--autogallery-accent);
+}
+
+.cover-frame,
+.photo-frame {
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(135deg, rgba(255, 183, 3, 0.14), rgba(8, 16, 29, 0.85));
+}
+
+.cover-frame {
+	aspect-ratio: 16 / 10;
+}
+
+.photo-frame {
+	aspect-ratio: 4 / 3;
+}
+
+.cover-image,
+.photo-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.cover-fallback,
+.photo-fallback,
+.hero-visual {
+	width: 100%;
+	height: 100%;
+	min-height: 100%;
+	background:
+		radial-gradient(circle at 20% 20%, rgba(255, 183, 3, 0.4), transparent 22%),
+		radial-gradient(circle at 80% 15%, rgba(251, 113, 133, 0.45), transparent 18%),
+		linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.hero-visual {
+	border-radius: 1.5rem;
+	min-height: 320px;
+	position: relative;
+	overflow: hidden;
+}
+
+.hero-visual::before,
+.hero-visual::after {
+	content: "";
+	position: absolute;
+	border-radius: 999px;
+	filter: blur(10px);
+}
+
+.hero-visual::before {
+	width: 180px;
+	height: 180px;
+	right: 20px;
+	top: 30px;
+	background: rgba(255, 183, 3, 0.45);
+}
+
+.hero-visual::after {
+	width: 220px;
+	height: 220px;
+	left: 18px;
+	bottom: 18px;
+	background: rgba(251, 113, 133, 0.38);
+}
+
+.detail-card,
+.empty-state,
+.visual-panel,
+.brand-breadcrumb,
+.carousel-shell {
+	border-radius: 1.5rem;
+}
+
+.brand-breadcrumb {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	background: rgba(13, 22, 39, 0.84);
+}
+
+.empty-state {
+	padding: 1.5rem;
+	color: var(--autogallery-muted);
+}
+
+.vehicle-figure {
+	min-height: 100%;
+}
+
+.photo-caption {
+	color: var(--autogallery-muted);
+	font-size: 0.92rem;
+}
+
+.fade-in-up {
+	animation: fade-in-up 0.55s ease both;
+}
+
+.delay-1 {
+	animation-delay: 0.08s;
+}
+
+.delay-2 {
+	animation-delay: 0.16s;
+}
+
+.delay-3 {
+	animation-delay: 0.24s;
+}
+
+@keyframes fade-in-up {
+	from {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 991.98px) {
+	.autogallery-shell {
+		width: min(100%, calc(100% - 1rem));
+	}
+
+	.hero-panel {
+		border-radius: 1.5rem;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.metric-box {
+		min-width: 100%;
+	}
+
+	.hero-visual {
+		min-height: 220px;
+	}
+
+	.brand-breadcrumb {
+		width: 100%;
+		justify-content: center;
+	}
+}

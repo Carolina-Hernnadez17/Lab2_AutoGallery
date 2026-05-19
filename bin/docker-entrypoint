@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+# If the command launches the Rails server, prepare the database first.
+if [[ "$*" == *"./bin/rails server"* ]]; then
+  ./bin/rails db:prepare
+fi
+
+exec "$@"

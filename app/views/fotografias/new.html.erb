@@ -1,0 +1,33 @@
+<% content_for :title, "AutoGallery | Nueva fotografía" %>
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="detail-card p-4 p-md-5 fade-in-up">
+      <p class="section-label mb-2">Alta de fotografía</p>
+      <h1 class="h2 fw-bold mb-2"><%= @vehiculo.modelo %></h1>
+      <p class="support-copy mb-4">La ruta puede ser una URL pública o una ruta local accesible por la app.</p>
+
+      <%= form_with model: [@marca, @vehiculo, @fotografia], class: "row g-3" do |form| %>
+        <div class="col-12">
+          <%= form.label :ruta_archivo, class: "form-label" %>
+          <%= form.text_field :ruta_archivo, class: "form-control form-control-lg", placeholder: "https://..." %>
+        </div>
+
+        <div class="col-md-6">
+          <%= form.label :angulo, class: "form-label" %>
+          <%= form.text_field :angulo, class: "form-control form-control-lg", placeholder: "Frontal, lateral, interior..." %>
+        </div>
+
+        <div class="col-md-6">
+          <%= form.label :fecha_subida, class: "form-label" %>
+          <%= form.date_field :fecha_subida, class: "form-control form-control-lg" %>
+        </div>
+
+        <div class="col-12 d-flex gap-2 flex-wrap">
+          <%= form.submit "Guardar fotografía", class: "btn btn-autogallery" %>
+          <%= link_to "Volver", marca_vehiculo_path(@marca, @vehiculo), class: "btn btn-outline-autogallery" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
