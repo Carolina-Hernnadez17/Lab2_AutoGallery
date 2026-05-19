@@ -1,38 +1,51 @@
 class VehiculosController < ApplicationController
-  before_action :set_marca, only: %i[new create show destroy]
+  before_action :set_vehiculo, only: %i[show edit update destroy]
+
+  def index
+    @vehiculos = Vehiculo.includes(:marca, :fotografias).order(:modelo)
+  end
 
   def show
-    @vehiculo = @marca.vehiculos.includes(:fotografias).find(params[:id])
   end
 
   def new
-    @vehiculo = @marca.vehiculos.new
+    @vehiculo = Vehiculo.new(marca_id: params[:marca_id])
+  end
+
+  def edit
   end
 
   def create
-    @vehiculo = @marca.vehiculos.new(vehiculo_params)
+    @vehiculo = Vehiculo.new(vehiculo_params)
 
     if @vehiculo.save
-      redirect_to marca_vehiculo_path(@marca, @vehiculo), notice: "Vehículo creado correctamente."
+      redirect_to @vehiculo, notice: "Vehículo creado correctamente."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
+  def update
+    if @vehiculo.update(vehiculo_params)
+      redirect_to @vehiculo, notice: "Vehículo actualizado correctamente."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def destroy
-    @vehiculo = @marca.vehiculos.find(params[:id])
     @vehiculo.destroy
 
-    redirect_to marca_path(@marca), notice: "Vehículo eliminado correctamente."
+    redirect_to vehiculos_path, notice: "Vehículo eliminado correctamente."
   end
 
   private
 
-  def set_marca
-    @marca = Marca.find(params[:marca_id])
+  def set_vehiculo
+    @vehiculo = Vehiculo.includes(:fotografias, :marca).find(params[:id])
   end
 
   def vehiculo_params
-    params.require(:vehiculo).permit(:modelo, :anio, :color)
+    params.require(:vehiculo).permit(:modelo, :anio, :color, :precio, :marca_id)
   end
 end

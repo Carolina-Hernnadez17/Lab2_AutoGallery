@@ -1,32 +1,49 @@
 class FotografiasController < ApplicationController
-  before_action :set_marca
-  before_action :set_vehiculo
+  before_action :set_fotografia, only: %i[edit update destroy]
+
+  def index
+    @fotografias = Fotografia.includes(vehiculo: :marca).order(created_at: :desc)
+  end
 
   def new
-    @fotografia = @vehiculo.fotografias.new
+    @fotografia = Fotografia.new(vehiculo_id: params[:vehiculo_id])
+  end
+
+  def edit
   end
 
   def create
-    @fotografia = @vehiculo.fotografias.new(fotografia_params)
+    @fotografia = Fotografia.new(fotografia_params)
 
     if @fotografia.save
-      redirect_to marca_vehiculo_path(@marca, @vehiculo), notice: "Fotografía agregada correctamente."
+      redirect_to @fotografia.vehiculo, notice: "Fotografía agregada correctamente."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  private
-
-  def set_marca
-    @marca = Marca.find(params[:marca_id])
+  def update
+    if @fotografia.update(fotografia_params)
+      redirect_to @fotografia.vehiculo, notice: "Fotografía actualizada correctamente."
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
-  def set_vehiculo
-    @vehiculo = @marca.vehiculos.find(params[:vehiculo_id])
+  def destroy
+    vehiculo = @fotografia.vehiculo
+    @fotografia.destroy
+
+    redirect_to vehiculo, notice: "Fotografía eliminada correctamente."
+  end
+
+  private
+
+  def set_fotografia
+    @fotografia = Fotografia.find(params[:id])
   end
 
   def fotografia_params
-    params.require(:fotografia).permit(:ruta_archivo, :angulo, :fecha_subida)
+    params.require(:fotografia).permit(:ruta_archivo, :angulo, :vehiculo_id)
   end
 end

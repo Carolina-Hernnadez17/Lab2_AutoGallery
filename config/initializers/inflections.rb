@@ -14,3 +14,9 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+	inflect.irregular "fotografia", "fotografias"
+	inflect.irregular "marca", "marcas"
+	inflect.irregular "vehiculo", "vehiculos"
+end

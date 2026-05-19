@@ -3,15 +3,16 @@
 <div class="row g-4 align-items-start fade-in-up">
   <div class="col-lg-5">
     <div class="brand-breadcrumb mb-3">
-      <%= link_to "Volver a #{@marca.nombre_marca}", marca_path(@marca), class: "btn btn-outline-autogallery btn-sm" %>
+      <%= link_to "Volver a #{@vehiculo.marca.nombre_marca}", marca_path(@vehiculo.marca_id), class: "btn btn-outline-autogallery btn-sm" %>
       <span class="text-muted">/</span>
       <span class="text-muted"><%= @vehiculo.modelo %></span>
     </div>
 
     <div class="d-flex flex-wrap gap-2 mb-3">
-      <%= link_to "Agregar fotografía", new_marca_vehiculo_fotografia_path(@marca, @vehiculo), class: "btn btn-autogallery" %>
-      <%= link_to "Crear otro vehículo", new_marca_vehiculo_path(@marca), class: "btn btn-outline-autogallery" %>
-      <%= button_to "Eliminar vehículo", marca_vehiculo_path(@marca, @vehiculo), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar este vehículo y sus fotografías?" } %>
+      <%= link_to "Agregar fotografía", new_fotografia_path(vehiculo_id: @vehiculo.id), class: "btn btn-autogallery" %>
+      <%= link_to "Editar vehículo", edit_vehiculo_path(@vehiculo), class: "btn btn-outline-autogallery" %>
+      <%= link_to "Crear otro vehículo", new_vehiculo_path(marca_id: @vehiculo.marca_id), class: "btn btn-outline-autogallery" %>
+      <%= button_to "Eliminar vehículo", vehiculo_path(@vehiculo), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar este vehículo y sus fotografías?" } %>
     </div>
 
     <div class="detail-card p-4 h-100">
@@ -27,13 +28,17 @@
           <span>Color</span>
         </div>
         <div class="metric-box">
+          <strong><%= number_to_currency(@vehiculo.precio || 0, unit: "$", precision: 0) %></strong>
+          <span>Precio</span>
+        </div>
+        <div class="metric-box">
           <strong><%= @vehiculo.fotografias.size %></strong>
           <span>Fotos</span>
         </div>
       </div>
 
       <p class="support-copy mb-0">
-        <strong class="text-white">Marca:</strong> <%= @marca.nombre_marca %><br>
+        <strong class="text-white">Marca:</strong> <%= @vehiculo.marca.nombre_marca %><br>
         Revisa la galería completa para ver cada ángulo del vehículo.
       </p>
     </div>
@@ -59,6 +64,10 @@
               <div class="photo-caption mt-2">
                 <strong class="text-white"><%= fotografia.angulo.presence || "Sin ángulo" %></strong>
                 <span class="d-block"><%= fotografia.fecha_subida&.strftime("%d/%m/%Y") || "Fecha no definida" %></span>
+                <div class="d-flex gap-2 flex-wrap mt-2">
+                  <%= link_to "Editar", edit_fotografia_path(fotografia), class: "btn btn-outline-autogallery btn-sm" %>
+                  <%= button_to "Eliminar", fotografia_path(fotografia), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery btn-sm", data: { turbo_confirm: "¿Seguro que quieres eliminar esta fotografía?" } %>
+                </div>
               </div>
             </div>
           <% end %>
@@ -67,7 +76,7 @@
             <div class="empty-state">
               Este vehículo todavía no tiene fotografías cargadas.
               <div class="mt-3">
-                <%= link_to "Agregar fotografía", new_marca_vehiculo_fotografia_path(@marca, @vehiculo), class: "btn btn-autogallery" %>
+                <%= link_to "Agregar fotografía", new_fotografia_path(vehiculo_id: @vehiculo.id), class: "btn btn-autogallery" %>
               </div>
             </div>
           </div>
