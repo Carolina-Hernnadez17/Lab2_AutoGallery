@@ -147,6 +147,236 @@ a:hover {
 	box-shadow: 0 24px 60px rgba(0, 0, 0, 0.36);
 }
 
+.brand-choice-card {
+	width: 100%;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 1.35rem;
+	background: rgba(13, 22, 39, 0.92);
+	color: var(--autogallery-text);
+	padding: 0;
+	overflow: hidden;
+	text-align: left;
+	transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+	display: grid;
+	grid-template-columns: minmax(120px, 38%) minmax(0, 1fr);
+	align-items: stretch;
+}
+
+.brand-choice-card:hover,
+.brand-choice-card:focus-visible,
+.brand-choice-card.is-active {
+	transform: translateY(-3px);
+	border-color: rgba(255, 183, 3, 0.5);
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+	outline: none;
+}
+
+.brand-choice-card.is-active {
+	background: linear-gradient(135deg, rgba(255, 183, 3, 0.18), rgba(13, 22, 39, 0.95));
+}
+
+.brand-choice-card__media {
+	position: relative;
+	height: 100%;
+	min-height: 170px;
+	background: linear-gradient(135deg, rgba(255, 183, 3, 0.14), rgba(8, 16, 29, 0.9));
+	overflow: hidden;
+}
+
+.brand-choice-card__image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.brand-choice-card__fallback {
+	width: 100%;
+	height: 100%;
+	background:
+		radial-gradient(circle at 25% 30%, rgba(255, 183, 3, 0.45), transparent 24%),
+		radial-gradient(circle at 80% 15%, rgba(251, 113, 133, 0.45), transparent 18%),
+		linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.brand-choice-card__body {
+	padding: 1.15rem 1.15rem 1.15rem 1.2rem;
+	background: linear-gradient(135deg, rgba(13, 22, 39, 0.92), rgba(16, 30, 53, 0.96));
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 0.75rem;
+}
+
+.brand-choice-card__meta {
+	font-size: 0.85rem;
+	color: var(--autogallery-muted);
+}
+
+.brand-catalog-panel {
+	min-height: 100%;
+}
+
+.brand-scroll-list,
+.vehicle-scroll-list {
+	overflow-y: auto;
+	overflow-x: hidden;
+	scrollbar-gutter: stable;
+	padding-right: 0.35rem;
+}
+
+.brand-scroll-list {
+	max-height: calc(4 * 170px + 3 * 0.75rem);
+}
+
+.vehicle-scroll-list {
+	max-height: calc(4 * 340px + 3 * 1rem);
+}
+
+.brand-scroll-list::-webkit-scrollbar,
+.vehicle-scroll-list::-webkit-scrollbar {
+	width: 10px;
+}
+
+.brand-scroll-list::-webkit-scrollbar-thumb,
+.vehicle-scroll-list::-webkit-scrollbar-thumb {
+	background: rgba(255, 183, 3, 0.45);
+	border-radius: 999px;
+	border: 2px solid rgba(11, 22, 38, 0.9);
+}
+
+.brand-scroll-list::-webkit-scrollbar-track,
+.vehicle-scroll-list::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 999px;
+}
+
+.brand-catalog-empty {
+	min-height: 100%;
+	display: grid;
+	place-items: center;
+	text-align: center;
+}
+
+.brand-catalog-empty .empty-state {
+	width: 100%;
+}
+
+.brand-catalog-source {
+	display: none;
+}
+
+.brand-catalog-header {
+	padding-bottom: 1rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.brand-catalog-header__image {
+	width: 100%;
+	max-width: 260px;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	border-radius: 1.25rem;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24);
+}
+
+.brand-catalog-header__fallback {
+	width: 100%;
+	max-width: 260px;
+	aspect-ratio: 16 / 10;
+	border-radius: 1.25rem;
+	background:
+		radial-gradient(circle at 25% 20%, rgba(255, 183, 3, 0.45), transparent 24%),
+		radial-gradient(circle at 80% 18%, rgba(251, 113, 133, 0.35), transparent 18%),
+		linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.discover-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 1080;
+	display: grid;
+	place-items: center;
+	padding: 1.25rem;
+}
+
+.discover-modal[hidden] {
+	display: none !important;
+}
+
+.discover-modal__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(3, 8, 16, 0.75);
+	backdrop-filter: blur(14px);
+}
+
+.discover-modal__dialog {
+	position: relative;
+	z-index: 1;
+	width: min(860px, 100%);
+	display: grid;
+	grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+	background: #0b1626;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 1.75rem;
+	overflow: hidden;
+	box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+}
+
+.discover-modal__close {
+	position: absolute;
+	top: 0.85rem;
+	right: 0.9rem;
+	z-index: 2;
+	width: 2.5rem;
+	height: 2.5rem;
+	border: 0;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.14);
+	color: #fff;
+	font-size: 1.9rem;
+	line-height: 1;
+}
+
+.discover-modal__media {
+	position: relative;
+	min-height: 100%;
+	background: linear-gradient(135deg, rgba(255, 183, 3, 0.12), rgba(8, 16, 29, 0.92));
+}
+
+.discover-modal__image {
+	width: 100%;
+	height: 100%;
+	min-height: 320px;
+	object-fit: cover;
+	display: block;
+}
+
+.discover-modal__fallback {
+	position: absolute;
+	inset: 0;
+	background:
+		radial-gradient(circle at 22% 22%, rgba(255, 183, 3, 0.42), transparent 22%),
+		radial-gradient(circle at 80% 15%, rgba(251, 113, 133, 0.4), transparent 18%),
+		linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+	pointer-events: none;
+}
+
+.discover-modal__content {
+	padding: 2rem;
+	align-self: center;
+}
+
+.discover-modal__title {
+	margin-top: 0;
+}
+
+body.modal-open {
+	overflow: hidden;
+}
+
 .brand-card .card-body,
 .vehicle-card .card-body {
 	padding: 1.35rem;
@@ -373,6 +603,18 @@ a:hover {
 	.hero-panel {
 		border-radius: 1.5rem;
 	}
+
+	.brand-choice-card {
+		grid-template-columns: minmax(110px, 32%) minmax(0, 1fr);
+	}
+
+	.discover-modal__dialog {
+		grid-template-columns: 1fr;
+	}
+
+	.discover-modal__image {
+		min-height: 260px;
+	}
 }
 
 @media (max-width: 575.98px) {
@@ -387,5 +629,21 @@ a:hover {
 	.brand-breadcrumb {
 		width: 100%;
 		justify-content: center;
+	}
+
+	.brand-choice-card {
+		grid-template-columns: 1fr;
+	}
+
+	.brand-choice-card__media {
+		min-height: 180px;
+	}
+
+	.discover-modal {
+		padding: 0.65rem;
+	}
+
+	.discover-modal__content {
+		padding: 1.25rem;
 	}
 }

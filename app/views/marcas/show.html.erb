@@ -1,6 +1,6 @@
 <% content_for :title, "AutoGallery | #{@marca.nombre_marca}" %>
 
-<div data-controller="vehicle-discover">
+<div>
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 fade-in-up">
     <div>
       <div class="brand-breadcrumb mb-3">
@@ -77,14 +77,14 @@
                   <button
                     class="btn btn-autogallery"
                     type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#discoverVehicleModal"
                     data-action="click->vehicle-discover#open"
                     data-vehicle-discover-modelo="<%= vehiculo.modelo %>"
                     data-vehicle-discover-precio="<%= vehiculo.precio %>"
                     data-vehicle-discover-anio="<%= vehiculo.anio %>"
                     data-vehicle-discover-color="<%= vehiculo.color %>"
                     data-vehicle-discover-marca="<%= @marca.nombre_marca %>"
+                    data-vehicle-discover-imagen="<%= vehiculo.fotografias.first&.ruta_archivo %>"
+                    data-vehicle-discover-url="<%= vehiculo_path(vehiculo) %>"
                   >
                     Descubrir
                   </button>
@@ -109,23 +109,4 @@
     <% end %>
   </div>
 
-  <div class="modal fade" id="discoverVehicleModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content autogallery-modal">
-        <div class="modal-header border-0">
-          <h5 class="modal-title" data-vehicle-discover-target="title">Detalle del vehículo</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" data-action="click->vehicle-discover#close" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <p class="mb-2"><strong>Marca:</strong> <span data-vehicle-discover-target="brand"></span></p>
-          <p class="mb-2"><strong>Precio desde:</strong> <span data-vehicle-discover-target="price"></span></p>
-          <p class="mb-2"><strong>Año:</strong> <span data-vehicle-discover-target="year"></span></p>
-          <p class="mb-0"><strong>Color:</strong> <span data-vehicle-discover-target="color"></span></p>
-        </div>
-        <div class="modal-footer border-0">
-          <button type="button" class="btn btn-autogallery" data-bs-dismiss="modal" data-action="click->vehicle-discover#close">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

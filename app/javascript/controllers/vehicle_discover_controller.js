@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["title", "brand", "price", "year", "color"]
+  static targets = ["modal", "image", "title", "brand", "price", "year", "color", "link"]
 
   open(event) {
     const source = event.currentTarget
@@ -10,22 +10,43 @@ export default class extends Controller {
     const anio = source.dataset.vehicleDiscoverAnio || "--"
     const color = source.dataset.vehicleDiscoverColor || "--"
     const marca = source.dataset.vehicleDiscoverMarca || ""
+    const imagen = source.dataset.vehicleDiscoverImagen || ""
+    const url = source.dataset.vehicleDiscoverUrl || ""
 
     this.titleTarget.textContent = modelo
     this.brandTarget.textContent = marca
     this.priceTarget.textContent = this.formatCurrency(precio)
     this.yearTarget.textContent = anio
     this.colorTarget.textContent = color
+
+    if (imagen) {
+      this.imageTarget.src = imagen
+      this.imageTarget.alt = modelo || marca
+      this.imageTarget.hidden = false
+    } else {
+      this.imageTarget.removeAttribute("src")
+      this.imageTarget.alt = ""
+      this.imageTarget.hidden = true
+    }
+
+    if (url) {
+      this.linkTarget.href = url
+      this.linkTarget.hidden = false
+    } else {
+      this.linkTarget.removeAttribute("href")
+      this.linkTarget.hidden = true
+    }
+
+    this.modalTarget.hidden = false
+    document.body.classList.add("modal-open")
   }
 
   close() {
-    const modalElement = document.getElementById("discoverVehicleModal")
-    if (!modalElement || !window.bootstrap) {
-      return
+    if (this.hasModalTarget) {
+      this.modalTarget.hidden = true
     }
 
-    const instance = window.bootstrap.Modal.getInstance(modalElement) || new window.bootstrap.Modal(modalElement)
-    instance.hide()
+    document.body.classList.remove("modal-open")
   }
 
   formatCurrency(value) {

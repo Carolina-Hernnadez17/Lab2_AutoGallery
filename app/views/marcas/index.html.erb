@@ -1,4 +1,6 @@
 <% content_for :title, "AutoGallery | Marcas" %>
+<% first_marca = @marcas.first %>
+<% first_vehicle = first_marca&.vehiculos&.first %>
 
 <section class="hero-panel mb-4 mb-lg-5 fade-in-up">
   <div class="row align-items-center g-4">
@@ -6,7 +8,7 @@
       <p class="hero-kicker mb-3">Galería de autos</p>
       <h1 class="display-4 fw-bold mb-3">AutoGallery</h1>
       <p class="hero-copy lead mb-4">
-        Recorre marcas, descubre vehículos asociados y abre cada ficha para ver su galería de fotografías.
+        Elige una marca del catálogo para ver sus vehículos al instante, sin recargar la página.
       </p>
       <div class="d-flex flex-wrap gap-3">
         <div class="metric-box">
@@ -31,12 +33,12 @@
 
 <section class="mb-3 d-flex align-items-end justify-content-between gap-3 flex-wrap">
   <div>
-    <p class="section-label mb-2">Marcas destacadas</p>
-    <h2 class="h3 fw-bold mb-0">Tarjetas responsivas con Bootstrap</h2>
+    <p class="section-label mb-2">Catálogo de marcas</p>
+    <h2 class="h3 fw-bold mb-0">Selecciona una marca y mira sus vehículos</h2>
   </div>
   <div class="d-flex flex-wrap gap-2">
     <%= link_to "Nueva marca", new_marca_path, class: "btn btn-autogallery" %>
-    <p class="support-copy mb-0 align-self-center">Selecciona una marca para ver sus vehículos y luego entra a su galería.</p>
+    <p class="support-copy mb-0 align-self-center">Las tarjetas muestran solo tus marcas cargadas.</p>
   </div>
 </section>
 
@@ -57,58 +59,224 @@
   <% end %>
 </div>
 
-<div class="row g-4">
-  <% @marcas.each do |marca| %>
-    <div class="col-12 col-sm-6 col-lg-4">
-      <article class="card gallery-card brand-card h-100 fade-in-up">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
-            <span class="badge rounded-pill text-bg-warning text-dark">Marca</span>
-            <span class="text-muted"><%= marca.vehiculos.size %> vehículos</span>
+<% if @marcas.any? %>
+  <div class="row g-4" data-controller="brand-selector">
+    <div class="col-12 col-lg-4">
+      <div class="detail-card p-3 p-md-4 brand-catalog-panel fade-in-up">
+        <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+          <div>
+            <p class="section-label mb-2">Marcas disponibles</p>
+            <h3 class="h4 fw-bold mb-0">Haz clic en una tarjeta</h3>
           </div>
+          <span class="text-muted"><%= @marcas.size %> marcas</span>
+        </div>
 
-          <h3 class="brand-name h4 fw-bold mb-2"><%= marca.nombre_marca %></h3>
-          <p class="gallery-subtitle mb-4"><%= marca.pais_origen.presence || "País de origen no especificado" %></p>
-
-          <div class="cover-frame rounded-4 mb-4">
-            <% if marca.vehiculos.first&.fotografias&.first %>
-              <%= image_tag marca.vehiculos.first.fotografias.first.ruta_archivo, class: "cover-image", alt: marca.nombre_marca, loading: "lazy" %>
-            <% else %>
-              <div class="cover-fallback"></div>
-            <% end %>
-          </div>
-
-          <div class="mt-auto d-flex justify-content-between align-items-center gap-3 flex-wrap">
-            <small class="text-muted">Explora la colección completa</small>
-            <div class="d-flex gap-2 flex-wrap">
-              <button class="btn btn-autogallery" type="button" data-bs-toggle="collapse" data-bs-target="#brand-vehicles-<%= marca.id %>" aria-expanded="false" aria-controls="brand-vehicles-<%= marca.id %>">
-                Ver vehículos
-              </button>
-              <%= link_to "Gestión", marca_path(marca), class: "btn btn-outline-autogallery" %>
-              <%= button_to "Eliminar", marca_path(marca), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar esta marca? Se borrarán sus vehículos y fotografías." } %>
-            </div>
-          </div>
-
-          <div class="collapse mt-3" id="brand-vehicles-<%= marca.id %>">
-            <% if marca.vehiculos.any? %>
-              <div class="row g-2 mt-2">
-                <% marca.vehiculos.each do |vehiculo| %>
-                  <div class="col-12 col-sm-6">
-                    <div class="card border-0 shadow-sm bg-body-tertiary h-100">
-                      <div class="card-body p-2 d-flex justify-content-between align-items-center">
-                        <span class="fw-medium text-truncate" title="<%= vehiculo.modelo %>"><%= vehiculo.modelo %></span>
-                        <%= link_to "Ver", vehiculo_path(vehiculo), class: "btn btn-autogallery btn-sm rounded-pill px-3" %>
-                      </div>
-                    </div>
+        <div class="brand-scroll-list row g-3">
+          <% @marcas.each do |marca| %>
+            <% marca_image = marca.vehiculos.find { |vehiculo| vehiculo.fotografias.any? }&.fotografias&.first&.ruta_archivo %>
+            <div class="col-12">
+              <button
+                type="button"
+                class="brand-choice-card"
+                aria-pressed="false"
+                data-action="click->brand-selector#select"
+                data-brand-selector-target="button"
+                data-brand-selector-brand-id="<%= marca.id %>"
+              >
+                <div class="brand-choice-card__media">
+                  <% if marca_image.present? %>
+                    <%= image_tag marca_image, class: "brand-choice-card__image", alt: marca.nombre_marca, loading: "lazy" %>
+                  <% else %>
+                    <div class="brand-choice-card__fallback"></div>
+                  <% end %>
+                </div>
+                <div class="brand-choice-card__body">
+                  <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                    <span class="badge rounded-pill text-bg-warning text-dark">Marca</span>
+                    <span class="brand-choice-card__meta"><%= marca.vehiculos.size %> vehículos</span>
                   </div>
-                <% end %>
-              </div>
+                  <h4 class="brand-name h5 fw-bold mb-1"><%= marca.nombre_marca %></h4>
+                  <p class="gallery-subtitle mb-2"><%= marca.pais_origen.presence || "País de origen no especificado" %></p>
+                  <span class="btn btn-outline-autogallery btn-sm">Ver vehículos</span>
+                </div>
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-8">
+      <div class="detail-card p-3 p-md-4 brand-catalog-panel fade-in-up">
+          <div class="brand-catalog-header d-flex flex-column flex-xl-row align-items-xl-center justify-content-between gap-4 mb-4">
+          <div>
+            <p class="section-label mb-2">Vehículos de la marca seleccionada</p>
+            <h3 class="display-6 fw-bold mb-2">Elige una tarjeta de la izquierda</h3>
+            <p class="support-copy mb-0">Verás aquí los vehículos, su precio, año y color sin salir de esta página.</p>
+          </div>
+          <div class="brand-catalog-header__image-wrap">
+            <% if first_vehicle&.fotografias&.first %>
+              <%= image_tag first_vehicle.fotografias.first.ruta_archivo, class: "brand-catalog-header__image", alt: first_marca&.nombre_marca, loading: "lazy" %>
             <% else %>
-              <div class="empty-state p-2 mt-2">Esta marca no tiene vehículos todavía.</div>
+              <div class="brand-catalog-header__fallback"></div>
             <% end %>
           </div>
         </div>
-      </article>
+
+        <div class="vehicle-scroll-list" data-brand-selector-target="panel">
+          <% if first_marca.present? %>
+            <div>
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <p class="section-label mb-2">Marca activa</p>
+                  <h4 class="h3 fw-bold mb-1"><%= first_marca.nombre_marca %></h4>
+                  <p class="gallery-subtitle mb-0"><%= first_marca.pais_origen.presence || "País de origen no especificado" %></p>
+                </div>
+                <div class="metric-box">
+                  <strong><%= first_marca.vehiculos.size %></strong>
+                  <span>vehículos</span>
+                </div>
+              </div>
+
+              <% if first_marca.vehiculos.any? %>
+                <div class="row g-4">
+                  <% first_marca.vehiculos.each do |vehiculo| %>
+                    <% vehicle_image = vehiculo.fotografias.first&.ruta_archivo %>
+                    <div class="col-12 col-md-6">
+                      <article class="card gallery-card vehicle-card h-100 fade-in-up">
+                        <div class="cover-frame">
+                          <% if vehicle_image.present? %>
+                            <%= image_tag vehicle_image, class: "cover-image", alt: vehiculo.modelo, loading: "lazy" %>
+                          <% else %>
+                            <div class="cover-fallback"></div>
+                          <% end %>
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+                          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                            <span class="badge rounded-pill text-bg-light text-dark"><%= vehiculo.anio.presence || "Año no definido" %></span>
+                            <span class="text-muted">Desde <%= number_to_currency(vehiculo.precio || 0, unit: "$", precision: 0) %></span>
+                          </div>
+
+                          <h3 class="vehicle-name h5 fw-bold mb-2"><%= vehiculo.modelo %></h3>
+                          <p class="gallery-subtitle mb-4"><%= vehiculo.color.presence || "Color no especificado" %></p>
+
+                          <div class="mt-auto d-flex flex-wrap gap-2">
+                            <button
+                              class="btn btn-autogallery"
+                              type="button"
+                              data-action="click->vehicle-discover#open"
+                              data-vehicle-discover-modelo="<%= vehiculo.modelo %>"
+                              data-vehicle-discover-precio="<%= vehiculo.precio %>"
+                              data-vehicle-discover-anio="<%= vehiculo.anio %>"
+                              data-vehicle-discover-color="<%= vehiculo.color %>"
+                              data-vehicle-discover-marca="<%= first_marca.nombre_marca %>"
+                              data-vehicle-discover-imagen="<%= vehicle_image %>"
+                              data-vehicle-discover-url="<%= vehiculo_path(vehiculo) %>"
+                            >
+                              Descubrir
+                            </button>
+                            <%= link_to "Ver galería", vehiculo_path(vehiculo), class: "btn btn-outline-autogallery" %>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="empty-state">
+                  Esta marca todavía no tiene vehículos cargados.
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="brand-catalog-empty">
+              <div class="empty-state">
+                No tienes marcas registradas todavía.
+                <div class="mt-3">
+                  <%= link_to "Crear marca", new_marca_path, class: "btn btn-autogallery" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <% @marcas.each do |marca| %>
+          <div class="brand-catalog-source" data-brand-selector-target="source" data-brand-id="<%= marca.id %>">
+            <div>
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <p class="section-label mb-2">Marca activa</p>
+                  <h4 class="h3 fw-bold mb-1"><%= marca.nombre_marca %></h4>
+                  <p class="gallery-subtitle mb-0"><%= marca.pais_origen.presence || "País de origen no especificado" %></p>
+                </div>
+                <div class="metric-box">
+                  <strong><%= marca.vehiculos.size %></strong>
+                  <span>vehículos</span>
+                </div>
+              </div>
+
+              <% if marca.vehiculos.any? %>
+                <div class="row g-4">
+                  <% marca.vehiculos.each do |vehiculo| %>
+                    <% vehicle_image = vehiculo.fotografias.first&.ruta_archivo %>
+                    <div class="col-12 col-md-6">
+                      <article class="card gallery-card vehicle-card h-100 fade-in-up">
+                        <div class="cover-frame">
+                          <% if vehicle_image.present? %>
+                            <%= image_tag vehicle_image, class: "cover-image", alt: vehiculo.modelo, loading: "lazy" %>
+                          <% else %>
+                            <div class="cover-fallback"></div>
+                          <% end %>
+                        </div>
+
+                        <div class="card-body d-flex flex-column">
+                          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                            <span class="badge rounded-pill text-bg-light text-dark"><%= vehiculo.anio.presence || "Año no definido" %></span>
+                            <span class="text-muted">Desde <%= number_to_currency(vehiculo.precio || 0, unit: "$", precision: 0) %></span>
+                          </div>
+
+                          <h3 class="vehicle-name h5 fw-bold mb-2"><%= vehiculo.modelo %></h3>
+                          <p class="gallery-subtitle mb-4"><%= vehiculo.color.presence || "Color no especificado" %></p>
+
+                          <div class="mt-auto d-flex flex-wrap gap-2">
+                            <button
+                              class="btn btn-autogallery"
+                              type="button"
+                              data-action="click->vehicle-discover#open"
+                              data-vehicle-discover-modelo="<%= vehiculo.modelo %>"
+                              data-vehicle-discover-precio="<%= vehiculo.precio %>"
+                              data-vehicle-discover-anio="<%= vehiculo.anio %>"
+                              data-vehicle-discover-color="<%= vehiculo.color %>"
+                              data-vehicle-discover-marca="<%= marca.nombre_marca %>"
+                              data-vehicle-discover-imagen="<%= vehicle_image %>"
+                              data-vehicle-discover-url="<%= vehiculo_path(vehiculo) %>"
+                            >
+                              Descubrir
+                            </button>
+                            <%= link_to "Ver galería", vehiculo_path(vehiculo), class: "btn btn-outline-autogallery" %>
+                          </div>
+                        </div>
+                      </article>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="empty-state">
+                  Esta marca todavía no tiene vehículos cargados.
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
-</div>
+  </div>
+<% else %>
+  <div class="empty-state fade-in-up">
+    No tienes marcas registradas todavía.
+    <div class="mt-3">
+      <%= link_to "Crear marca", new_marca_path, class: "btn btn-autogallery" %>
+    </div>
+  </div>
+<% end %>

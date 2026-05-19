@@ -24,7 +24,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="vehicle-discover" data-action="keydown.esc@window->vehicle-discover#close">
     <nav class="navbar navbar-expand-lg navbar-dark navbar-autogallery sticky-top">
       <div class="container-fluid autogallery-shell py-2">
         <%= link_to "AutoGallery", root_path, class: "navbar-brand fw-bold brand-mark" %>
@@ -59,6 +59,31 @@
 
       <%= yield %>
     </main>
+
+    <div class="discover-modal" data-vehicle-discover-target="modal" hidden aria-hidden="true">
+      <div class="discover-modal__backdrop" data-action="click->vehicle-discover#close"></div>
+      <section class="discover-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="discoverVehicleTitle">
+        <button type="button" class="discover-modal__close" data-action="click->vehicle-discover#close" aria-label="Cerrar ventana">&times;</button>
+
+        <div class="discover-modal__media">
+          <img data-vehicle-discover-target="image" class="discover-modal__image" alt="" hidden>
+          <div class="discover-modal__fallback" aria-hidden="true"></div>
+        </div>
+
+        <div class="discover-modal__content">
+          <p class="section-label mb-2">Detalle rápido</p>
+          <h2 class="h3 fw-bold mb-3 discover-modal__title" id="discoverVehicleTitle" data-vehicle-discover-target="title">Vehículo</h2>
+          <p class="mb-3"><strong>Marca:</strong> <span data-vehicle-discover-target="brand"></span></p>
+          <p class="mb-3"><strong>Precio desde:</strong> <span data-vehicle-discover-target="price"></span></p>
+          <p class="mb-3"><strong>Año:</strong> <span data-vehicle-discover-target="year"></span></p>
+          <p class="mb-4"><strong>Color:</strong> <span data-vehicle-discover-target="color"></span></p>
+          <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-autogallery" data-vehicle-discover-target="link" href="#">Ver ficha</a>
+            <button type="button" class="btn btn-outline-autogallery" data-action="click->vehicle-discover#close">Cerrar</button>
+          </div>
+        </div>
+      </section>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>
