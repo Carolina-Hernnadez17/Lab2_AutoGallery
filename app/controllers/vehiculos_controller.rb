@@ -1,5 +1,5 @@
 class VehiculosController < ApplicationController
-  before_action :set_marca, only: %i[new create show]
+  before_action :set_marca, only: %i[new create show destroy]
 
   def show
     @vehiculo = @marca.vehiculos.includes(:fotografias).find(params[:id])
@@ -17,6 +17,13 @@ class VehiculosController < ApplicationController
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @vehiculo = @marca.vehiculos.find(params[:id])
+    @vehiculo.destroy
+
+    redirect_to marca_path(@marca), notice: "Vehículo eliminado correctamente."
   end
 
   private

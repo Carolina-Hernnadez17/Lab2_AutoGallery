@@ -14,20 +14,42 @@
 
   <div class="d-flex flex-wrap gap-3">
     <%= link_to "Nuevo vehículo", new_marca_vehiculo_path(@marca), class: "btn btn-autogallery" %>
+    <%= button_to "Eliminar marca", marca_path(@marca), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar esta marca? Se borrarán sus vehículos y fotografías." } %>
     <div class="metric-box">
-      <strong><%= @marca.vehiculos.size %></strong>
+      <strong><%= @vehiculos.size %></strong>
       <span>vehículos</span>
     </div>
     <div class="metric-box">
-      <strong><%= @marca.vehiculos.sum { |vehiculo| vehiculo.fotografias.size } %></strong>
+      <strong><%= @vehiculos.sum { |vehiculo| vehiculo.fotografias.size } %></strong>
       <span>fotografías</span>
     </div>
   </div>
 </div>
 
+<div class="detail-card p-3 p-md-4 mb-4 fade-in-up">
+  <%= form_with url: marca_path(@marca), method: :get, class: "row g-3 align-items-end" do |form| %>
+    <div class="col-lg-4">
+      <%= form.label :q, "Buscar vehículo", class: "form-label" %>
+      <%= form.text_field :q, value: params[:q], class: "form-control form-control-lg", placeholder: "Corolla, Mustang..." %>
+    </div>
+    <div class="col-lg-3">
+      <%= form.label :color, "Color", class: "form-label" %>
+      <%= form.text_field :color, value: params[:color], class: "form-control form-control-lg", placeholder: "Rojo, negro..." %>
+    </div>
+    <div class="col-lg-3">
+      <%= form.label :anio, "Año", class: "form-label" %>
+      <%= form.number_field :anio, value: params[:anio], class: "form-control form-control-lg", placeholder: "2024" %>
+    </div>
+    <div class="col-lg-2 d-flex gap-2 flex-wrap">
+      <%= form.submit "Filtrar", class: "btn btn-autogallery" %>
+      <%= link_to "Limpiar", marca_path(@marca), class: "btn btn-outline-autogallery" %>
+    </div>
+  <% end %>
+</div>
+
 <div class="row g-4">
-  <% if @marca.vehiculos.any? %>
-    <% @marca.vehiculos.order(:modelo).each do |vehiculo| %>
+  <% if @vehiculos.any? %>
+    <% @vehiculos.each do |vehiculo| %>
       <div class="col-12 col-md-6 col-xl-4">
         <article class="card gallery-card vehicle-card h-100 fade-in-up">
           <div class="cover-frame">
@@ -49,7 +71,10 @@
 
             <div class="mt-auto d-flex justify-content-between align-items-center gap-3 flex-wrap">
               <small class="text-muted">Marca: <%= @marca.nombre_marca %></small>
-              <%= link_to "Ver galería", marca_vehiculo_path(@marca, vehiculo), class: "btn btn-outline-autogallery" %>
+              <div class="d-flex gap-2 flex-wrap">
+                <%= link_to "Ver galería", marca_vehiculo_path(@marca, vehiculo), class: "btn btn-outline-autogallery" %>
+                <%= button_to "Eliminar", marca_vehiculo_path(@marca, vehiculo), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar este vehículo y sus fotografías?" } %>
+              </div>
             </div>
           </div>
         </article>
@@ -58,7 +83,7 @@
   <% else %>
     <div class="col-12">
       <div class="empty-state">
-        Esta marca todavía no tiene vehículos cargados.
+        No se encontraron vehículos con esos filtros.
         <div class="mt-3">
           <%= link_to "Crear vehículo", new_marca_vehiculo_path(@marca), class: "btn btn-autogallery" %>
         </div>

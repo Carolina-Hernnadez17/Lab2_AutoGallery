@@ -11,6 +11,7 @@
     <div class="d-flex flex-wrap gap-2 mb-3">
       <%= link_to "Agregar fotografía", new_marca_vehiculo_fotografia_path(@marca, @vehiculo), class: "btn btn-autogallery" %>
       <%= link_to "Crear otro vehículo", new_marca_vehiculo_path(@marca), class: "btn btn-outline-autogallery" %>
+      <%= button_to "Eliminar vehículo", marca_vehiculo_path(@marca, @vehiculo), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar este vehículo y sus fotografías?" } %>
     </div>
 
     <div class="detail-card p-4 h-100">

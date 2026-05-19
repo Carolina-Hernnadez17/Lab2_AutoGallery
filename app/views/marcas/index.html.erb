@@ -40,6 +40,23 @@
   </div>
 </section>
 
+<div class="detail-card p-3 p-md-4 mb-4 fade-in-up">
+  <%= form_with url: marcas_path, method: :get, class: "row g-3 align-items-end" do |form| %>
+    <div class="col-lg-5">
+      <%= form.label :q, "Buscar marca", class: "form-label" %>
+      <%= form.text_field :q, value: @query, class: "form-control form-control-lg", placeholder: "Toyota, Ford, BMW..." %>
+    </div>
+    <div class="col-lg-4">
+      <%= form.label :pais_origen, "País de origen", class: "form-label" %>
+      <%= form.text_field :pais_origen, value: @country, class: "form-control form-control-lg", placeholder: "Japón, Alemania..." %>
+    </div>
+    <div class="col-lg-3 d-flex gap-2 flex-wrap">
+      <%= form.submit "Filtrar", class: "btn btn-autogallery" %>
+      <%= link_to "Limpiar", marcas_path, class: "btn btn-outline-autogallery" %>
+    </div>
+  <% end %>
+</div>
+
 <div class="row g-4">
   <% @marcas.each do |marca| %>
     <div class="col-12 col-sm-6 col-lg-4">
@@ -63,7 +80,10 @@
 
           <div class="mt-auto d-flex justify-content-between align-items-center gap-3 flex-wrap">
             <small class="text-muted">Explora la colección completa</small>
-            <%= link_to "Ver vehículos", marca_path(marca), class: "btn btn-autogallery" %>
+            <div class="d-flex gap-2 flex-wrap">
+              <%= link_to "Ver vehículos", marca_path(marca), class: "btn btn-autogallery" %>
+              <%= button_to "Eliminar", marca_path(marca), method: :delete, form_class: "d-inline", class: "btn btn-outline-autogallery", data: { turbo_confirm: "¿Seguro que quieres eliminar esta marca? Se borrarán sus vehículos y fotografías." } %>
+            </div>
           </div>
         </div>
       </article>
